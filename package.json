@@ -7,12 +7,15 @@
     "prepare": "husky install",
     "test": "echo \"Error: no test specified\" && exit 1",
     "lint": "eslint 'src/**/*.ts' --fix",
-    "dev": "webpack serve --progress --config webpack.config.js",
+    "dev": "webpack serve --progress --config webpack.config.js --port 3010",
     "build": "webpack --mode production --config webpack.config.js"
   },
-  "authors": ["Maicon Feldhaus", "Fikret Cansel"],
+  "authors": [
+    "Maicon Feldhaus",
+    "Fikret Cansel"
+  ],
   "license": "MIT",
-    "devDependencies": {
+  "devDependencies": {
     "@types/lodash.clonedeep": "^4.5.6",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
@@ -28,6 +31,7 @@
     "webpack-dev-server": "^4.7.2"
   },
   "dependencies": {
+    "express": "^4.18.2",
     "lodash.clonedeep": "^4.5.0",
     "phaser": "^3.55.2"
   }
