@@ -1,5 +1,5 @@
 import { GameObjects, Scene } from 'phaser';
-import { Sokoban } from '../game/Sokoban';
+import { Sokoban } from '../game/sokoban';
 import { SokobanItem } from '../game/SokobanItem';
 import { Vector2 } from '../../../core/Vector2';
 
@@ -14,7 +14,8 @@ export class GameScene extends Scene {
   private crates: Map<SokobanItem, GameObjects.Sprite>;
   private currentLevel: number;
   private isMoving: boolean;
-
+  private allCode: string = (document.getElementById("codeInputId") as HTMLInputElement).value;
+  private codeIndex: number = 0;
   constructor() {
     super({ key: 'Sokoban' });
     this.sokoban = new Sokoban();
@@ -30,7 +31,7 @@ export class GameScene extends Scene {
   }
 
   protected create(data: any): void {
-    this.currentLevel = data.level || 0;
+    this.currentLevel = data.level || Number(localStorage.getItem("currentLevel")) || 0;
     const levels = this.cache.json.get('level');
     this.sokoban.buildLevel(levels[this.currentLevel]);
 
@@ -41,6 +42,42 @@ export class GameScene extends Scene {
     this.handlers();
 
     this.isMoving = false;
+    this.codeMover();
+  }
+
+  private codeMover(): void {
+    const codeMessageText = document.getElementById('codeMessageTextId');
+    codeMessageText.innerHTML = 'Code Running...'
+    new Promise(resolve => setTimeout(resolve, 1000)).then(() => {
+      const code = this.allCode.charAt(this.codeIndex);
+      switch (code) {
+        case '2':
+          this.moveDown();
+          this.codeIndex++;
+          this.codeMover();
+          break;
+        case '4':
+          this.moveLeft();
+          this.codeIndex++;
+          this.codeMover();
+          break;
+        case '6':
+          this.moveRight();
+          this.codeIndex++;
+          this.codeMover();
+          break;
+        case '8':
+          this.moveUp();
+          this.codeIndex++;
+          this.codeMover();
+          break;
+        default:
+          if(code!==''){
+            codeMessageText.innerHTML = 'Syntax Error..'
+          }
+          break;
+      }
+    })
   }
 
   private setupBoard(): void {
@@ -113,11 +150,11 @@ export class GameScene extends Scene {
   }
 
   private handlers(): void {
-    this.input.keyboard.on('keydown-UP', this.moveUp, this);
-    this.input.keyboard.on('keydown-DOWN', this.moveDown, this);
-    this.input.keyboard.on('keydown-LEFT', this.moveLeft, this);
-    this.input.keyboard.on('keydown-RIGHT', this.moveRight, this);
-    this.input.keyboard.on('keydown-U', this.undoMove, this);
+    // this.input.keyboard.on('keydown-UP', this.moveUp, this);
+    // this.input.keyboard.on('keydown-DOWN', this.moveDown, this);
+    // this.input.keyboard.on('keydown-LEFT', this.moveLeft, this);
+    // this.input.keyboard.on('keydown-RIGHT', this.moveRight, this);
+    // this.input.keyboard.on('keydown-U', this.undoMove, this);
   }
 
   private moveUp(): void {
@@ -180,7 +217,9 @@ export class GameScene extends Scene {
         if (this.sokoban.isLevelSolved()) {
           this.input.keyboard.removeAllListeners();
           setTimeout(() => {
-            this.scene.restart({ level: this.currentLevel + 1 });
+            const newLevel = this.currentLevel + 1;
+            localStorage.setItem("currentLevel", newLevel.toString())
+            this.scene.restart({ level: newLevel });
             // tslint:disable-next-line: align
           }, 1000);
         } else {

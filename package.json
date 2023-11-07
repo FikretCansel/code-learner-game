@@ -1,5 +1,5 @@
 {
-  "name": "phaser-sample-games",
+  "name": "code-learner",
   "version": "1.0.0",
   "description": "",
   "main": "webpack.config.js",
@@ -10,9 +10,9 @@
     "dev": "webpack serve --progress --config webpack.config.js",
     "build": "webpack --mode production --config webpack.config.js"
   },
-  "author": "Maicon Feldhaus",
+  "authors": ["Maicon Feldhaus", "Fikret Cansel"],
   "license": "MIT",
-  "devDependencies": {
+    "devDependencies": {
     "@types/lodash.clonedeep": "^4.5.6",
     "@typescript-eslint/eslint-plugin": "^5.10.0",
     "@typescript-eslint/parser": "^5.10.0",
