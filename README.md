@@ -82,7 +82,7 @@ Select a folder, navigate to it, and clone this repository
 with this command-line:
 
 ```
-git clone https://github.com/digitsensitive/phaser3-typescript.git
+git clone https://github.com/FikretCansel/code-learner-game
 ```
 
 Install the dependencies with this command-line:
@@ -96,7 +96,8 @@ npm install
 Perform a quick build (bundle.js) and start server:
 
 ```
-npm run dev
+npm run build
+npm start
 ```
 
 ## Sample Games
